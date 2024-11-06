@@ -1,0 +1,36 @@
+# Flask and its dependencies
+Flask==1.1.4
+Werkzeug==1.0.1  # Compatible with Flask 1.1.4
+gunicorn==20.1.0  # Optional: for production deployment if needed
+markupsafe==1.1.1
+
+# LLMs and NLP
+transformers==4.33.1
+torch==2.0.1  # Compatible with Python 3.8 and Transformers
+sentence-transformers==2.2.2
+accelerate==0.20.3  # Updated to meet the requirement from transformers
+protobuf==3.20.1  # Compatible with Python 3.8
+openai==0.27.0 
+
+
+# Elasticsearch
+elasticsearch==7.10.0  # Compatible with older Flask and Python versions
+elasticsearch-dsl==7.4.0  # Matching version for elasticsearch client 7.x
+
+# Data Processing and Science
+numpy==1.21.2  # Compatible with torch 1.8
+pandas==1.2.5
+scipy==1.5.4
+scikit-learn==0.24.2  # Compatible with Python 3.8
+matplotlib==3.4.3
+seaborn==0.11.1
+
+# Jupyter and Widgets
+jupyter==1.0.0
+notebook==6.4.10  # Compatible with older dependencies
+jupyterlab==3.2.5
+ipywidgets==7.6.5  # Compatible with notebook 6.x
+
+# Utilities
+tqdm==4.62.3
+pymupdf==1.18.14

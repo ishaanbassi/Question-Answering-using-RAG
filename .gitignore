@@ -1,0 +1,15 @@
+# Ignore Python cache files
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Byte-compiled and other Python artifacts
+*.pyo
+*.pyd
+*.pdb
+*.so
+*.egg
+*.egg-info
+dist/
+build/
+*.dist-info/

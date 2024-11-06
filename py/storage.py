@@ -8,18 +8,10 @@ import urllib3
 
 
 class VectorStore():
-    def __init__(self, host, port, scheme, username, password):
-        
-        self.db = Elasticsearch(
-                        hosts=[{
-                            "host": host,
-                            "port": port,
-                            "scheme": scheme  
-                        }],
-                        http_auth=(username, password),  
-                        verify_certs=False  
-                    )
+    def __init__(self, host, port):
 
+        self.db = Elasticsearch([f"{host}:{port}"])
+        
         # Test the connection
         try:
             if self.db.ping():
@@ -58,8 +50,8 @@ class VectorStore():
         ]
         bulk(self.db, actions)
     
-    def retrieve_documents(self, query_body):
-        res = self.db.search(index="pdf_text_chunks", body=query_body)
+    def retrieve_documents(self, index_name, query_body):
+        res = self.db.search(index=index_name, body=query_body)
         return [hit["_source"]["text"] for hit in res["hits"]["hits"]]
     
 

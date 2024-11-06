@@ -1,6 +1,6 @@
 import openai
 
-def retrieve_relevant_chunks(question_embedding, vector_store, top_k=3):
+def retrieve_relevant_chunks(question_embedding, vector_store, index_name, top_k=3):
     """Retrieve top K most relevant chunks based on the question."""
     
     query_body = {
@@ -17,7 +17,7 @@ def retrieve_relevant_chunks(question_embedding, vector_store, top_k=3):
         }
     }
 
-    return vector_store.retrieve_documents(query_body)
+    return vector_store.retrieve_documents(index_name, query_body)
 
 def generate_answer(question, context, generation_config):
     
@@ -26,7 +26,7 @@ def generate_answer(question, context, generation_config):
     response = openai.ChatCompletion.create(
         model=generation_config['generation_model'],  
         messages = [{'role': 'user', 'content': prompt}],
-        max_tokens=generation_config['generation_max_tokens'],            
+        max_tokens=generation_config['generation_max_token'],            
         temperature=generation_config['generation_temperature']             
     )
     return response.choices[0].message['content'].strip()

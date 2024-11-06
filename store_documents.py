@@ -21,11 +21,8 @@ def absoluteFilePaths(directory):
 
 if __name__ == "__main__": 
     
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    # urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     config = json.load(open('config.json'))
-
-    if len(sys.argv)>1:
-        vector_store_pass = sys.argv[1]
 
     embedding_model = AutoModel.from_pretrained(config['EMBEDDING_MODEL']['embedder_model'])
     tokenizer = AutoTokenizer.from_pretrained(config['EMBEDDING_MODEL']['embedder_model'])
@@ -33,10 +30,7 @@ if __name__ == "__main__":
 
     elastic_config = config['ELASTIC']
     vector_store = storage.VectorStore(elastic_config['host'], 
-                                       elastic_config['port'], 
-                                       elastic_config['scheme'], 
-                                       elastic_config['username'], 
-                                       vector_store_pass)
+                                       elastic_config['port'])
     
     vector_store.initialize_index(elastic_config['index_name'], 
                                   config['EMBEDDING_MODEL']['embedding_type'],
