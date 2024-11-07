@@ -26,40 +26,50 @@ Follow these steps to set up the environment, build the Docker image, and run th
 
 ### Step-by-Step Setup
 
-1. **Clone the Repository:**
+1. **Clone the Repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/ishaanbassi/Question-Answering-using-RAG.git
    cd Question-Answering-using-RAG
    ```
 
-2. **Build the Docker Image:**
+2. **Build the Docker Image**
 
    Build the Docker image using the following command. The context for the Docker build should be the entire `Question-Answering-using-RAG` folder.
 
    ```bash
-   docker build -t temp:1.0.0 .
-   ```
-
-3. **Run the Docker Container:**
-
-   Use the command below to start the Docker container, exposing the necessary ports (9200 for Elasticsearch and 9202 for the API).
-
-   ```bash
-   docker run -p 9200:9200 -p 9202:9202 --name testcode temp:1.0.0
+    sudo docker build -f .devcontainer/Dockerfile -t <image_name:image_version> .
    ```
 
 ## Running the Application
 
-After starting the container, the system should initialize and launch both Elasticsearch and the API for question-answering. To verify that the API is running, you can send a `GET` request to the health check endpoint at `http://localhost:9202/health`.
+1. **Storing Data for Context Retrieval**
 
-Example health check command:
+   Transfer the data that needs to be stored for retrieving context passages relevant to the user query
 
-```bash
-curl -X GET http://localhost:9202/health
-```
+   ````bash
+   cp -R <path_to_pdfs> Question-Answering-using-RAG/data/pdfs
+   ````
 
-If the system is running correctly, you should see a response indicating the API status as `healthy`.
+2. **Run the Docker Container**
+
+   Use the command below to start the Docker container, exposing the necessary ports (9200 for Elasticsearch and 9202 for the API).
+
+   ```bash
+   docker run -p 9200:9200 -p 9202:9202 --name <container_name> <iamge_name:image_version>
+   ```
+
+3. **API Health Check**
+   
+   After starting the container, the system should initialize and launch both Elasticsearch and the API for question-answering. To verify that the API is running, you can send a `GET` request to the health check endpoint at `http://localhost:9202/health`.
+
+   Example health check command:
+
+   ```bash
+   curl -X GET http://localhost:9202/health
+   ```
+
+   If the system is running correctly, you should see a response indicating the API status as `healthy`.
 
 ## API Documentation
 
@@ -80,6 +90,10 @@ If the system is running correctly, you should see a response indicating the API
        "question": "Your question here"
      }
      ```
+   - **Sample curl request**:
+     ```bash
+     curl -X POST http://localhost:9202/ask -H "Content-Type: application/json" -d '{"question": "What is the company policy on remote work?"}'
+     ```
 
 ## Elasticsearch Configuration
 
@@ -91,18 +105,4 @@ This system uses Elasticsearch for storing and retrieving context passages for q
 - **run.sh**: Shell script that waits for Elasticsearch to initialize, runs the document storage script, and starts the API.
 - **store_documents.py**: Script for storing documents in Elasticsearch.
 - **qa_api.py**: Main API script for serving question-answering requests.
-
-## Troubleshooting
-
-If you encounter issues during setup or execution, consider the following:
-
-- **Permission Issues**: Ensure that the Docker container user has sufficient permissions for all mounted volumes.
-- **Elasticsearch Errors**: Check Elasticsearch logs for errors, and ensure the required ports are accessible.
-- **API Not Responding**: Verify that all necessary ports are forwarded correctly and that the container is running without errors.
-
----
-
-Thank you for using the Question-Answering System! For additional help, please consult the documentation or reach out to the project maintainers.
-``` 
-
-This markdown file includes all steps and sections in a consistent format. Let me know if further changes are needed!
+- **config.json**: Project configuration, including models used for generating document embeddings and the final response to query
