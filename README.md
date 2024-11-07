@@ -11,7 +11,6 @@ Welcome to the **Question-Answering System** project, which leverages Retrieval-
 - [API Documentation](#api-documentation)
 - [Elasticsearch Configuration](#elasticsearch-configuration)
 - [Project Structure](#project-structure)
-- [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -41,25 +40,18 @@ Follow these steps to set up the environment, build the Docker image, and run th
     sudo docker build -f .devcontainer/Dockerfile -t <image_name:image_version> .
    ```
 
-## Running the Application
-
-1. **Storing Data for Context Retrieval**
-
-   Transfer the data that needs to be stored for retrieving context passages relevant to the user query
-
-   ````bash
-   cp -R <path_to_pdfs> Question-Answering-using-RAG/data/pdfs
-   ````
-
-2. **Run the Docker Container**
+3. **Running the Application**
 
    Use the command below to start the Docker container, exposing the necessary ports (9200 for Elasticsearch and 9202 for the API).
 
    ```bash
-   docker run -p 9200:9200 -p 9202:9202 --name <container_name> <iamge_name:image_version>
+   docker run -p 9200:9200 -p 9202:9202 -v <path_to_pdfs>:/workspaces/qa/data --name <container_name> <image_name:image_version>
+   
    ```
 
-3. **API Health Check**
+   Once the API has initialized, enter the openai key to run decoder for answer generation.
+
+4. **API Health Check**
    
    After starting the container, the system should initialize and launch both Elasticsearch and the API for question-answering. To verify that the API is running, you can send a `GET` request to the health check endpoint at `http://localhost:9202/health`.
 
